@@ -16,7 +16,7 @@ def deps do
 end
 ```
 
-# Quickstart
+## Quickstart
 
 Telepath allows you to easily reach data from any elixir struct given a path
 (like you do in jsonpath or xpath).
