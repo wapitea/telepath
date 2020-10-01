@@ -40,7 +40,7 @@ defmodule Telepath do
       ["node", "0", "attr1"]
 
 
-  With the sigil `~t` it will be simple as:
+  With the sigil `~t` it will be as simple as:
 
   ```elixir
   ~t/data/
