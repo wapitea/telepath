@@ -10,7 +10,7 @@ defmodule Telepath.MixProject do
       deps: deps(),
       package: package(),
       name: "Telepath",
-      description: "Telepath is the xPath/JsonPath of elixir's struct.",
+      description: "Telepath is, in essence, xPath/JsonPath for elixir structs.",
       source_url: "https://github.com/wapitea/telepath",
       docs: [
         main: "readme",
