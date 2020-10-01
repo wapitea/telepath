@@ -74,7 +74,24 @@ defmodule Telepath do
     |> List.flatten()
   end
 
-  @doc false
+  @doc """
+  Obtains a data at a given path.
+
+  ```elixir
+  Telepath.get(%{hello: "world"}, ~t/hello/a)
+  # "world"
+
+  Telepath.get(%{foo: [%{bar: "bar1"}, %{bar: "bar2"}]}, ~t/foo.bar/a)
+  # ["bar1", "bar2"]
+
+  # works also with string key
+  Telepath.get(%{"foo" => [%{"bar" => "bar1"}, %{"bar" => "bar2"}]}, ~t/foo.bar/)
+  # ["bar1", "bar2"]
+
+  Telepath.get(%{foo: [%{bar: "bar1"}, %{bar: "bar2"}]}, ~t/foo/a)
+  # [%{bar: "bar1"}, %{bar: "bar2"}]
+  ```
+  """
   def get(data, []), do: data
 
   def get(data, _) when not is_map(data) and not is_list(data) do
@@ -87,8 +104,14 @@ defmodule Telepath do
     |> get(expression)
   end
 
-  def get(data, expression) when is_list(data) do
-    Enum.map(data, &get(&1, expression))
+  def get(data, [x | expression]) when is_list(data) do
+    if Keyword.keyword?(data) do
+      data
+      |> Keyword.get_values(x)
+      |> get(expression)
+    else
+      Enum.map(data, &get(&1, [x | expression]))
+    end
   end
 
   def get(data, [x | expresion]) when is_map(data) do

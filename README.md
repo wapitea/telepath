@@ -40,8 +40,13 @@ e.g.
 # [:hello, :world, 0]
 ```
 
+<<<<<<< HEAD
 When your struct path is generated, you can use the `&Telepath.get/2` function
 to access the data.
+=======
+When your struct path is generate you can use the `&Telepath.get/2` function
+to access to the data.
+>>>>>>> master
 
 e.g.
 
@@ -52,6 +57,7 @@ data = %{
    node: [%{attr: "value"}, %{attr: "value"}]
 }
 
+<<<<<<< HEAD
 Telepath.get(data, ~t/node/a)
 # [%{node: "value"}, %{node: "value}]
 
@@ -62,6 +68,18 @@ Telepath.get(data, ~t/node[0]/a)
 # %{node: "value"}
 
 Telepath.get(data, ~t/node[0].attr/a)
+=======
+Telepath.get(data, ~t/data/a)
+# [%{attr: "value"}, %{attr: "value}]
+
+Telepath.get(data, ~t/data.attr/a)
+# ["value", "value"]
+
+Telepath.get(data, ~t/data[0]/a)
+# %{attr: "value"}
+
+Telepath.get(data, ~t/data[0].attr/a)
+>>>>>>> master
 # "value"
 
 Telepath.get(%{"string_key" => "value"}, ~t/string_key/)
