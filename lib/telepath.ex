@@ -1,17 +1,17 @@
 defmodule Telepath do
   @moduledoc """
-  Provide an easy way to access to elixir's data struct with a path.
+  Provide an easy way to access elixir's data struct with a path.
 
-  Inspired by JsonPath or xPath (for json and xml), Telepath allow you to reach
-  the data that you want by specifying a path.
+  Inspired by JsonPath & xPath (for json and xml), Telepath allows you to reach
+  the data that you want, simply by specifying a path.
 
-  The path can be created using the sigils ~t (see `Telepath.sigil_t/2`).
+  The path can be created using the sigil: ~t (see `Telepath.sigil_t/2`).
 
   ```elixir
   # Simple path to reach data under the map key `"data"`.
   ~r/data/
 
-  # Same but for map with atom instead of string.
+  # Same but for a map with atoms instead of strings.
   ~r/data/a
   ```
 
@@ -19,16 +19,16 @@ defmodule Telepath do
 
   The modifiers available when creating a Telepath are:
 
-  - atom (a) - enable atom key for path exploration.
+  - atom (a) - enable atom keys for path exploration.
   """
 
   @regex ~r/^\w+|[0-9]+/
 
   @doc """
-  Transform the struct path to an array that define how to
-  access to the data.
+  Transform the struct path to an array that defines how to
+  access the data.
 
-  > Use `~r` instead of `&Telepath.sigil_t/2`.
+  > Use `~t` instead of `&Telepath.sigil_t/2`.
 
   ...
 
@@ -48,7 +48,7 @@ defmodule Telepath do
       iex> Telepath.sigil_t("node.0.attr1")
       ["node", "0", "attr1"]
 
-  You cal also manage atom based map using 'a' opts.
+  You can also manage atom based maps using the 'a' opts.
 
   E.g.
 

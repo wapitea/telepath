@@ -31,7 +31,7 @@ e.g.
 # ["hello", "world", 0]
 ```
 
-Can also be use using atom with `a` modifier.
+With the `a` modifier, you can exctract atoms instead of strings.
 
 e.g.
 
@@ -40,28 +40,28 @@ e.g.
 # [:hello, :world, 0]
 ```
 
-When your struct path is generate you can use the `&Telepath.get/2` function
-to access to the data.
+When your struct path is generated, you can use the `&Telepath.get/2` function
+to access the data.
 
 e.g.
 
 ```elixir
-import Telepath # for `~r` sigil
+import Telepath # for `~t` sigil
 
 data = %{
    node: [%{attr: "value"}, %{attr: "value"}]
 }
 
-Telepath.get(data, ~t/data/a)
-# [%{attr: "value"}, %{attr: "value}]
+Telepath.get(data, ~t/node/a)
+# [%{node: "value"}, %{node: "value}]
 
-Telepath.get(data, ~t/data.attr/a)
+Telepath.get(data, ~t/node.attr/a)
 # ["value", "value"]
 
-Telepath.get(data, ~t/data[0]/a)
-# %{attr: "value"}
+Telepath.get(data, ~t/node[0]/a)
+# %{node: "value"}
 
-Telepath.get(data, ~t/data[0].attr/a)
+Telepath.get(data, ~t/node[0].attr/a)
 # "value"
 
 Telepath.get(%{"string_key" => "value"}, ~t/string_key/)
