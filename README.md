@@ -41,7 +41,7 @@ e.g.
 ```
 
 When your struct path is generate you can use the `&Telepath.get/2` function
-to access to the data
+to access to the data.
 
 e.g.
 
@@ -53,15 +53,15 @@ data = %{
 }
 
 Telepath.get(data, ~t/data/a)
-# [%{titi: "value"}, %{titi: "value}]
+# [%{attr: "value"}, %{attr: "value}]
 
-Telepath.get(data, ~t/data.titi/a)
+Telepath.get(data, ~t/data.attr/a)
 # ["value", "value"]
 
 Telepath.get(data, ~t/data[0]/a)
-# %{titi: "value"}
+# %{attr: "value"}
 
-Telepath.get(data, ~t/data[0].titi/a)
+Telepath.get(data, ~t/data[0].attr/a)
 # "value"
 
 Telepath.get(%{"string_key" => "value"}, ~t/string_key/)
