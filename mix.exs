@@ -1,6 +1,8 @@
 defmodule Telepath.MixProject do
   use Mix.Project
 
+  @source_url "https://github.com/wapitea/telepath"
+
   def project do
     [
       app: :telepath,
@@ -11,11 +13,8 @@ defmodule Telepath.MixProject do
       package: package(),
       name: "Telepath",
       description: "Telepath is, in essence, xPath/JsonPath for elixir structs.",
-      source_url: "https://github.com/wapitea/telepath",
-      docs: [
-        main: "readme",
-        extras: ["README.md"]
-      ]
+      source_url: @source_url,
+      docs: docs()
     ]
   end
 
@@ -29,11 +28,19 @@ defmodule Telepath.MixProject do
     ]
   end
 
+  defp docs do
+    [
+      main: "readme",
+      source_url: @source_url,
+      extras: ["README.md"]
+    ]
+  end
+
   defp package do
     [
       maintainers: ["Alexandre Lepretre", "Antoine Pecatikov"],
       licenses: ["GNU GPLv3"],
-      links: %{"Github" => "https://github.com/wapitea/telepath"},
+      links: %{"Github" => @source_url},
       name: "telepath"
     ]
   end
