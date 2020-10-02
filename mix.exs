@@ -33,7 +33,7 @@ defmodule Telepath.MixProject do
     [
       maintainers: ["Alexandre Lepretre", "Antoine Pecatikov"],
       licenses: ["GNU GPLv3"],
-      links: %{"Github" => "https://github.com/wapitea/event_manager"},
+      links: %{"Github" => "https://github.com/wapitea/telepath"},
       name: "telepath"
     ]
   end
