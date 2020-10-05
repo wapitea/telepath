@@ -26,14 +26,14 @@ defmodule Telepath.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.22", only: :dev, runtime: false}
-    ]                       
+    ]
   end
 
   defp package do
     [
       maintainers: ["Alexandre Lepretre", "Antoine Pecatikov"],
       licenses: ["GNU GPLv3"],
-      links: %{"Github" => "https://github.com/wapitea/event_manager"},
+      links: %{"Github" => "https://github.com/wapitea/telepath"},
       name: "telepath"
     ]
   end
