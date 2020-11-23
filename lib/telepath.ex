@@ -89,21 +89,36 @@ defmodule Telepath do
   ```
 
   > See `sigil_t/2` for more informations on path.
-  """
-  @spec get(data :: any, path :: __MODULE__.path()) :: any
-  def get(data, _path = []), do: data
 
-  def get(data, _) when not is_map(data) and not is_list(data) do
+  ### opts
+
+  - `flatten` Return a flattened list (works only if the result of telepath is a list) (default `false`).
+  """
+
+  def get(data, path, opts \\ []) do
+    result = do_get(data, path)
+
+    if is_list(result) && Keyword.get(opts, :flatten) do
+      List.flatten(result)
+    else
+      result
+    end
+  end
+
+  @spec do_get(data :: any, path :: __MODULE__.path()) :: any
+  defp do_get(data, _path = []), do: data
+
+  defp do_get(data, _) when not is_map(data) and not is_list(data) do
     nil
   end
 
-  def get(data, [x | path]) when is_list(data) and is_integer(x) do
+  defp do_get(data, [x | path]) when is_list(data) and is_integer(x) do
     data
     |> Enum.at(x)
     |> get(path)
   end
 
-  def get(data, [x | path]) when is_list(data) do
+  defp do_get(data, [x | path]) when is_list(data) do
     if Keyword.keyword?(data) do
       data
       |> Keyword.get_values(x)
@@ -113,7 +128,7 @@ defmodule Telepath do
     end
   end
 
-  def get(data, [x | expresion]) when is_map(data) do
+  defp do_get(data, [x | expresion]) when is_map(data) do
     data
     |> Map.get(x)
     |> get(expresion)
