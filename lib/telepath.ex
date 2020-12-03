@@ -9,7 +9,7 @@ defmodule Telepath do
   """
 
   @type path :: [String.t() | atom | number]
-  @regex ~r/^\w+|[0-9]+/
+  @regex ~r/^\w+|[0-9]+|\*/
 
   @doc """
   Transform the struct path to an array that defines how to
@@ -23,7 +23,12 @@ defmodule Telepath do
 
   - atom (a) - enable atom keys for path exploration.
 
-  E.g
+  ## Special characters
+
+  - `*`: will be transformed to `:*` (see `*` in `Telepath.get/3`)
+
+  ## Examples
+
       iex> Telepath.sigil_t("node")
       ["node"]
 
@@ -38,6 +43,9 @@ defmodule Telepath do
 
       iex> Telepath.sigil_t("node.0.attr1")
       ["node", "0", "attr1"]
+
+      iex> Telepath.sigil_t("node.*.attr1")
+      ["node", :*, "attr1"]
 
 
   With the sigil `~t` it will be as simple as:
@@ -61,10 +69,15 @@ defmodule Telepath do
 
       array_pos = Enum.map(array_pos, &String.to_integer/1)
 
-      if Enum.member?(opts, ?a) do
-        [String.to_atom(node) | array_pos]
-      else
-        [node | array_pos]
+      cond do
+        node == "*" ->
+          [:* | array_pos]
+
+        Enum.member?(opts, ?a) ->
+          [String.to_atom(node) | array_pos]
+
+        true ->
+          [node | array_pos]
       end
     end)
     |> List.flatten()
@@ -86,6 +99,21 @@ defmodule Telepath do
 
   Telepath.get(%{foo: [%{bar: "bar1"}, %{bar: "bar2"}]}, ~t/foo/a)
   # [%{bar: "bar1"}, %{bar: "bar2"}]
+
+  Telepath.get(%{foo: [%{bar: "bar1"}, %{bar: "bar2"}]}, ~t/*/a)
+  # [%{bar: "bar1"}, %{bar: "bar2"}]
+  ```
+
+  If you want to map every case in the path, you can use `:*`.
+
+  e.g.
+
+  ```elixir
+  Telepath.get(
+    %{data: %{key1: "value1", key2: "value2"}},
+    ~t/data.*/a
+  )
+  # ["value1", "value2"]
   ```
 
   > See `sigil_t/2` for more informations on path.
@@ -112,10 +140,22 @@ defmodule Telepath do
     nil
   end
 
+  defp do_get(data, [:* | path]) when is_map(data) do
+    Enum.map(data, fn {_k, v} -> get(v, path) end)
+  end
+
+  defp do_get(data, [:* | path]) when is_list(data) do
+    if Keyword.keyword?(data) do
+      data
+      |> Keyword.values()
+      |> get(path)
+    else
+      Enum.map(data, &get(&1, path))
+    end
+  end
+
   defp do_get(data, [x | path]) when is_list(data) and is_integer(x) do
-    data
-    |> Enum.at(x)
-    |> get(path)
+    data |> Enum.at(x) |> get(path)
   end
 
   defp do_get(data, [x | path]) when is_list(data) do

@@ -57,4 +57,24 @@ defmodule TelepathTest do
 
     assert Telepath.get(data, ~t(node)a, flatten: true) == %{subnode: ["data1", "data2"]}
   end
+
+  test "every on map" do
+    result =
+      Telepath.get(
+        %{data: %{key1: "value1", key2: "value2"}},
+        ~t/data.*/a
+      )
+
+    assert result == ["value1", "value2"]
+  end
+
+  test "every on array" do
+    result =
+      Telepath.get(
+        [[%{bar: "bar1"}, %{bar: "bar2"}], [%{bar: "bar3"}]],
+        ~t/*.bar/a
+      )
+
+    assert result == [["bar1", "bar2"], ["bar3"]]
+  end
 end
