@@ -25,7 +25,7 @@ defmodule Telepath do
 
   ## Special characters
 
-  - `*`: will be transform to `:*` (see `*` in `Telepath.get/3`)
+  - `*`: will be transformed to `:*` (see `*` in `Telepath.get/3`)
 
   ## Examples
 
