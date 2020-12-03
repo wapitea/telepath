@@ -23,7 +23,7 @@ defmodule Telepath do
 
   - atom (a) - enable atom keys for path exploration.
 
-  ## Specials characters
+  ## Special characters
 
   - `*`: will be transform to `:*` (see `*` in `Telepath.get/3`)
 
